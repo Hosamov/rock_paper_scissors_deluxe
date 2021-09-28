@@ -1,8 +1,6 @@
 import {createDeck, handleFAIcon} from './rpsWar.js';
 import instructions from './gameInstructions.js';
 
-console.log(instructions[0].instructions);
-
 const infoContainer = document.getElementById('info-container');
 const gameInstructions = document.getElementById('game-instructions');
 /*
@@ -18,9 +16,8 @@ function infoMessage() {
   let gameStart = true;
 
   //Display Classic instructions by default:
-  if (gameMode === 'classic') {
-    gameInstructions.innerHTML = instructions[0].instruction;
-  }
+  gameInstructions.innerHTML = instructions[0].instruction;
+
 
   infoContainer.classList.toggle('visible');
 
