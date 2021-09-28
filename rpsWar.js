@@ -9,8 +9,8 @@ const tiePot = document.getElementById('tie-pot');
 const tiePotText = document.querySelector('.tie-pot-centered');
 const infoContainer = document.getElementById('info-container');
 
-//Declare needed global variables needed:
-let gameStart = true;
+//Declare global variables needed:
+let gameStart = false;
 let deckSize = 18; // initial value (18, 36, 54)
 let newDeck = []; //init newDeck to hold all card values before dealing
 let playerDecks = [ [],[] ];
@@ -23,39 +23,15 @@ let currentCard = 0; // index of current card in player's deck
 * Function to display the main game menu/information div
 */
 function infoMessage() {
-  const deckCount = document.querySelector('.deck-count');
-  const btnDeck = document.querySelectorAll('.btn-deck');
-  const btnShuffleDeck = document.querySelector('.btn-shuffle-deck');
-
   infoContainer.classList.toggle('visible');
-
-  // Iterate through buttons, change card value and add active class to selected button
-  btnDeck.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      // Iterate through btnDeck, remove active class for appending to new btn
-      for(let i = 0; i < btnDeck.length; i++) btnDeck[i].classList.remove('active');
-
-      deckSize = e.target.value;
-      deckCount.innerText = `${deckSize} cards`; // Display deck size to user
-      btn.classList.add('active');
-    });
-  });
-
-  // Click handler for the Start Game button:
-  btnShuffleDeck.addEventListener('click', () => {
-    console.log('Shuffling deck and starting a new game...');
-    gameStart = false;
-    // Start new game instance:
-    createDeck(deckSize, true); // (Chosen deck size, is new game instance)
-    handleFAIcon();
-  });
 }
 
 /*
 * Function to create a new deck with 18, 36, or 54 cards
 * @param  {Number} num  Iterator value (9, 12, 18)
 */
-function createDeck(num, gameReset) {
+export function createDeck(num, gameReset) {
+  console.log('working ' + num + ' ' + gameReset);
   if(gameReset) {
     // Reset the global vars for a new game iteration:
     newDeck = [];
@@ -302,7 +278,6 @@ function uiHandler() {
   playerScore.innerHTML = `<i class="fas fa-user"></i> Player: ${p1.length} cards`;
 }
 
-
 // Helper function to distribute cards to the winning player
 function tieWinHandler(playerArr) {
   if (tieArr.length) {
@@ -345,7 +320,7 @@ function winTiePotAnimation() {
 }
 
 // Function to change information icon based on visible state of info window
-function handleFAIcon() {
+export function handleFAIcon() {
   // If the game is just starting, dont' display an icon:
   if(gameStart === true) {
     instructions.innerHTML = ``;
@@ -396,6 +371,3 @@ function cardImageHandler(card) {
 instructions.addEventListener('click', () => {
   handleFAIcon();
 });
-
-// Show info screen upon game start:
-infoMessage();

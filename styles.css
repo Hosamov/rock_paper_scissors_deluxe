@@ -95,6 +95,11 @@ button {
   background-color: #8492b5;
 }
 
+.btn-game-mode.active {
+  background-color: #8492b5;
+}
+
+
 .btn-shuffle-deck {
   padding: 6px;
 }
@@ -448,6 +453,10 @@ button {
   .ai-card img {
     width: 120px;
     height: 180px;
+  }
+
+  .game-setup {
+    font-size: 1.2rem;
   }
 }
 
