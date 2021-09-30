@@ -30,7 +30,7 @@ function infoMessage() {
 * Function to create a new deck with 18, 36, or 54 cards
 * @param  {Number} num  Iterator value (9, 12, 18)
 */
-export function createDeck(num, gameReset) {
+export function createClassicDeck(num, gameReset) {
   console.log('working ' + num + ' ' + gameReset);
   if(gameReset) {
     // Reset the global vars for a new game iteration:
@@ -320,7 +320,7 @@ function winTiePotAnimation() {
 }
 
 // Function to change information icon based on visible state of info window
-export function handleFAIcon() {
+export function handleClassicFAIcon() {
   // If the game is just starting, dont' display an icon:
   if(gameStart === true) {
     instructions.innerHTML = ``;
@@ -369,5 +369,5 @@ function cardImageHandler(card) {
 
 // Click handler for information button:
 instructions.addEventListener('click', () => {
-  handleFAIcon();
+  handleClassicFAIcon();
 });

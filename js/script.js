@@ -1,8 +1,12 @@
-import {createDeck, handleFAIcon} from './rpsWar.js';
+import {createClassicDeck, handleClassicFAIcon} from './rpsClassic.js';
+import {createWarDeck, handleWarFAIcon} from './rpsWar.js';
+// import {createMemoryDeck, handleMemoryFAIcon} from './rpsMemory.js';
+
 import instructions from './gameInstructions.js';
 
 const infoContainer = document.getElementById('info-container');
 const gameInstructions = document.getElementById('game-instructions');
+
 /*
 * Main function to display the main game menu/information div
 */
@@ -55,11 +59,26 @@ function infoMessage() {
 
   // Click handler for the Start Game button:
   btnShuffleDeck.addEventListener('click', (e) => {
-    console.log(e.target);
-    gameStart = false;
-    createDeck(deckSize, true);
-    handleFAIcon();
-  });
+    switch (gameMode) {
+      case 'classic':
+        alert('You chose "Classic game mode"');
+        gameStart = false;
+        createClassicDeck(deckSize, true);
+        handleClassicFAIcon();
+        break;
+      case 'war':
+        alert('You chose "War"');
+        gameStart = false;
+        createWarDeck(deckSize, true);
+        handleWarFAIcon();
+        break;
+      case 'memory':
+        alert('You chose "Memory"');
+        break;
+    }
+    // console.log(e.target);
+
+   });
 }
 
 // Show info screen upon game start:
