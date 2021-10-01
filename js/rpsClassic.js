@@ -24,6 +24,7 @@ let currentCard = 0; // index of current card in player's deck
 */
 function infoMessage() {
   infoContainer.classList.toggle('visible');
+  // alert('clicked.');
 }
 
 /*

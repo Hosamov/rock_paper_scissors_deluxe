@@ -6,7 +6,7 @@ import instructions from './gameInstructions.js';
 
 const infoContainer = document.getElementById('info-container');
 const gameInstructions = document.getElementById('game-instructions');
-
+const instructionsIcon = document.getElementById('instructions');
 /*
 * Main function to display the main game menu/information div
 */
@@ -21,7 +21,6 @@ function infoMessage() {
 
   //Display Classic instructions by default:
   gameInstructions.innerHTML = instructions[0].instruction;
-
 
   infoContainer.classList.toggle('visible');
 
@@ -80,6 +79,28 @@ function infoMessage() {
 
    });
 }
+
+// Function to change information icon based on visible state of info window
+export function handleFAIcon() {
+  // If the game is just starting, dont' display an icon:
+  // if(gameStart === true) {
+  //   instructions.innerHTML = ``;
+  //   infoMessage(); // Do display info by default
+  // } else {
+    // Otherwise, display the applicable information or gamepad FontAwesome icon:
+    if(!infoContainer.classList.contains('visible')) {
+      instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
+    } else {
+      instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
+    }
+  infoMessage();
+}
+
+
+ // Click handler for information button:
+instructionsIcon.addEventListener('click', () => {
+  handleFAIcon();
+});
 
 // Show info screen upon game start:
 infoMessage();
