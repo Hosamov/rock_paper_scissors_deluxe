@@ -90,6 +90,16 @@ function dealCards(newDeck) {
   uiHandler(p1, p2); // Send current score data to ui handler
 }
 
+//TODO: Create a function to display the player's hand at the bottom of the display
+// - Needs to show 3 cards (rock, paper, scissors), with number of cards per each in hand
+/*
+* Function to display a hand of the dealt cards to the player
+*/
+function displayHand() {
+  
+}
+
+
 /*
 * Function that adds two cards (from p1 and p2's deck) to the display.
 * @param {String} p1ImageFront  Card image for P1
@@ -141,6 +151,8 @@ function addMessage(message, btnText) {
     });
 }
 
+
+//TODO: Update this function to allow player to choose their own card from their hand
 /*
 * Function that draws a new card for each player
 * @param  {Boolean} hasWon  State of win/lose for round
