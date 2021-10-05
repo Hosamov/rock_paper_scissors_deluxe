@@ -110,6 +110,7 @@ button {
 
 .container {
   overflow-y: hidden; /* Fix mobile browsers from using overflow */
+  overflow-x: hidden; /* Fix mobile browsers from using overflow */
   position: relative;
   min-height: 100vh;
   display: block;
@@ -127,6 +128,11 @@ button {
 }
 
 .info-container {
+  transform: translate(100%, 100%);
+  opacity: 0;
+}
+
+.info-container.visible {
   text-align: center;
   color: #fff;
   font-size: 1.5rem;
@@ -139,12 +145,11 @@ button {
   background-color: #8492b5;
   border-radius: 8px;
   overflow-y: auto;
-}
-
-.info-container.visible {
-  transform: translate(100%, 100%);
+  transform: translate(0, 0);
   opacity: 1;
 }
+
+
 
 .game-setup {
   display: flex;

@@ -1,3 +1,5 @@
+// Game Mode: War
+
 import devices from './cardData.js';
 
 // Target global DOM Elements:

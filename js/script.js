@@ -7,6 +7,8 @@ import instructions from './gameInstructions.js';
 const infoContainer = document.getElementById('info-container');
 const gameInstructions = document.getElementById('game-instructions');
 const instructionsIcon = document.getElementById('instructions');
+  let gameStart = true;
+
 /*
 * Main function to display the main game menu/information div
 */
@@ -17,12 +19,11 @@ function infoMessage() {
   const btnShuffleDeck = document.querySelector('.btn-shuffle-deck');
   let gameMode = 'classic';
   let deckSize = 18;
-  let gameStart = true;
 
   //Display Classic instructions by default:
   gameInstructions.innerHTML = instructions[0].instruction;
 
-  infoContainer.classList.toggle('visible');
+  // infoContainer.classList.remove('visible');
 
   // Iterate through  game mode buttons, change card value and add active class to selected button
   btnGameMode.forEach(btn => {
@@ -60,7 +61,7 @@ function infoMessage() {
   btnShuffleDeck.addEventListener('click', (e) => {
     switch (gameMode) {
       case 'classic':
-        alert('You chose "Classic game mode"');
+        console.log('You chose "Classic game mode"');
         gameStart = false;
         createClassicDeck(deckSize, true);
         handleClassicFAIcon();
@@ -82,19 +83,23 @@ function infoMessage() {
 
 // Function to change information icon based on visible state of info window
 export function handleFAIcon() {
+  console.log('handleFAIcon');
   // If the game is just starting, dont' display an icon:
   // if(gameStart === true) {
-  //   instructions.innerHTML = ``;
+    // instructions.innerHTML = ``;
   //   infoMessage(); // Do display info by default
   // } else {
     // Otherwise, display the applicable information or gamepad FontAwesome icon:
-    if(!infoContainer.classList.contains('visible')) {
-      instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
-    } else {
+    // if(infoContainer.classList.contains('visible')) {
       instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
-    }
+    // } else {
+    //   instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
+    // }
+  // }
+  // infoContainer.classList.toggle('visible');
   infoMessage();
 }
+
 
 
  // Click handler for information button:

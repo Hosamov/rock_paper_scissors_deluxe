@@ -1,3 +1,5 @@
+// Game Mode: Classic
+
 import devices from './cardData.js';
 
 // Target global DOM Elements:
@@ -22,8 +24,11 @@ let currentCard = 0; // index of current card in player's deck
 /*
 * Function to display the main game menu/information div
 */
+
+//TODO: Toggle correct FA icon (gamepad/info)
 function infoMessage() {
-  infoContainer.classList.toggle('visible');
+  console.log('Toggling infoContainer visibility from rpsClassic.js');
+  infoContainer.classList.remove('visible');
   // alert('clicked.');
 }
 
@@ -32,7 +37,7 @@ function infoMessage() {
 * @param  {Number} num  Iterator value (9, 12, 18)
 */
 export function createClassicDeck(num, gameReset) {
-  console.log('working ' + num + ' ' + gameReset);
+  console.log('createClassicDeck working. ' + num + ' cards dealt. gameReset is ' + gameReset);
   if(gameReset) {
     // Reset the global vars for a new game iteration:
     newDeck = [];
@@ -322,19 +327,22 @@ function winTiePotAnimation() {
 
 // Function to change information icon based on visible state of info window
 export function handleClassicFAIcon() {
+  console.log('clickity clack');
   // If the game is just starting, dont' display an icon:
-  if(gameStart === true) {
-    instructions.innerHTML = ``;
-    infoMessage(); // Do display info by default
-  } else {
+  // if(gameStart === true) {
+  //   instructions.innerHTML = ``;
+  //   infoMessage(); // Do display info by default
+  // } else {
     // Otherwise, display the applicable information or gamepad FontAwesome icon:
-    if(!infoContainer.classList.contains('visible')) {
+    // if(infoContainer.classList.contains('visible')) {
+    //   console.log('The icon is a gamepad.');
+    //   instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
+    // } else {
+      console.log('The icon is a info circle');
       instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
-    } else {
-      instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
-    }
+    // }
     infoMessage();
-  }
+  // }
 }
 
 /*
