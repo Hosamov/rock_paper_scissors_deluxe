@@ -149,8 +149,6 @@ button {
   opacity: 1;
 }
 
-
-
 .game-setup {
   display: flex;
   flex-direction: column;
@@ -198,6 +196,48 @@ button {
 
 .instructions:hover {
   opacity: 0.5;
+}
+
+
+/*****Classic Game Mode Specific*****/
+.hand {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  bottom: 0%;
+  left: 10%;
+  right: 10%;
+  margin: 5px 0;
+
+  /* top: 2%; */
+  /* bottom: 15%; */
+  /* left: 10%;
+  right: 10%;
+  margin: 5px 0; */
+  text-align: center;
+  align-items: center;
+}
+
+.player-hand {
+  margin: 5px;
+}
+
+.player-hand img {
+  width: 150px;
+  height: 225px;
+}
+
+.player-hand-rock {
+  /* transform: translate(30%, 30%); */
+}
+
+.player-hand-paper{
+  /* transform: translate(30%, 30%); */
+}
+
+.player-hand-scissors {
+  /* transform: translate(30%, 30%); */
 }
 
 /***********Message Styles************/

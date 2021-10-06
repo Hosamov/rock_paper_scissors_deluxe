@@ -94,11 +94,11 @@ function dealCards(newDeck) {
 // - Needs to show 3 cards (rock, paper, scissors), with number of cards per each in hand
 /*
 * Function to display a hand of the dealt cards to the player
+* Displays before & while the cards are played
 */
 function displayHand() {
-  
-}
 
+}
 
 /*
 * Function that adds two cards (from p1 and p2's deck) to the display.
@@ -339,7 +339,6 @@ function winTiePotAnimation() {
 
 // Function to change information icon based on visible state of info window
 export function handleClassicFAIcon() {
-  console.log('clickity clack');
   // If the game is just starting, dont' display an icon:
   // if(gameStart === true) {
   //   instructions.innerHTML = ``;
