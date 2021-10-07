@@ -10,6 +10,7 @@ const aiTie = document.getElementById('ai-tie');
 const tiePot = document.getElementById('tie-pot');
 const tiePotText = document.querySelector('.tie-pot-centered');
 const infoContainer = document.getElementById('info-container');
+const contentWrap = document.getElementById('content-wrap');
 
 //Declare global variables needed:
 let gameStart = false;
@@ -20,6 +21,8 @@ let [p1, p2] = playerDecks; // p1 = human player, p2 = ai player
 let tieArr = []; // Array to keep track of tied cards
 let cardFlipped = false; // Globally track whether card is flipped
 let currentCard = 0; // index of current card in player's deck
+let playerCardRock = [];
+let playerCardPaper, playerCardScissors;
 
 /*
 * Function to display the main game menu/information div
@@ -87,6 +90,7 @@ function dealCards(newDeck) {
   // Pass starting cards to P1 & P2
   runGameInstance(p1[currentCard], p2[currentCard]);
   currentCard++;
+  displayPlayerHand();
   uiHandler(p1, p2); // Send current score data to ui handler
 }
 
@@ -96,9 +100,44 @@ function dealCards(newDeck) {
 * Function to display a hand of the dealt cards to the player
 * Displays before & while the cards are played
 */
-function displayHand() {
+function displayPlayerHand() {
+  // Check how many of each card was dealt to the player
+  playerCardRock = p1.filter(playerCard => playerCard === 'Rock');
+  playerCardPaper = p1.filter(playerCard => playerCard === 'Paper');
+  playerCardScissors = p1.filter(playerCard => playerCard === 'Scissors');
+
+  contentWrap.insertAdjacentHTML('beforeend', `
+    <div class="hand">
+      <div class="player-hand player-hand-rock" >
+        <img src="images/card_hand_rock.png" name="Rock">
+        <div class="cards-text-centered">${playerCardRock.length}</div>
+      </div>
+      <div class="player-hand player-hand-paper" >
+        <img src="images/card_hand_paper.png" name="Paper">
+        <div class="cards-text-centered">${playerCardPaper.length}</div>
+      </div>
+      <div class="player-hand player-hand-scissors" >
+        <img src="images/card_hand_scissors.png" name="Scissors">
+        <div class="cards-text-centered">${playerCardScissors.length}</div>
+      </div>
+    </div>`
+  );
+
+  playerHandHandler();
+}
+
+function playerHandHandler() {
+  const playerHand = document.querySelectorAll('.player-hand img');
+
+  playerHand.forEach(card => {
+    card.addEventListener('click', (e) => {
+      const targetName = e.target.name;
+      console.log(targetName);
+    });
+  });
 
 }
+
 
 /*
 * Function that adds two cards (from p1 and p2's deck) to the display.

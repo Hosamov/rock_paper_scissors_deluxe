@@ -209,35 +209,42 @@ button {
   left: 10%;
   right: 10%;
   margin: 5px 0;
-
-  /* top: 2%; */
-  /* bottom: 15%; */
-  /* left: 10%;
-  right: 10%;
-  margin: 5px 0; */
   text-align: center;
   align-items: center;
 }
 
 .player-hand {
   margin: 5px;
+  cursor: pointer;
+  position: relative;
 }
 
 .player-hand img {
   width: 150px;
   height: 225px;
+  opacity: 1;
 }
 
-.player-hand-rock {
-  /* transform: translate(30%, 30%); */
+.player-hand-rock:hover {
+  opacity: .7;
 }
 
-.player-hand-paper{
-  /* transform: translate(30%, 30%); */
+.player-hand-paper:hover {
+  opacity: .7;
 }
 
-.player-hand-scissors {
-  /* transform: translate(30%, 30%); */
+.player-hand-scissors:hover {
+  opacity: .7;
+}
+
+/* Centered text on card images */
+.cards-text-centered {
+  font-size: 2rem;
+  font-weight: bold;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /***********Message Styles************/
