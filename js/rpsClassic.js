@@ -87,18 +87,13 @@ function dealCards(newDeck) {
     playerDecks[i % 2].push(newDeck[i]);
   }
 
-  // Pass starting cards to P1 & P2
-  runGameInstance(p1[currentCard], p2[currentCard]);
-  currentCard++;
   displayPlayerHand();
   uiHandler(p1, p2); // Send current score data to ui handler
 }
 
-//TODO: Create a function to display the player's hand at the bottom of the display
-// - Needs to show 3 cards (rock, paper, scissors), with number of cards per each in hand
 /*
 * Function to display a hand of the dealt cards to the player
-* Displays before & while the cards are played
+* Displays before & while the cards are player
 */
 function displayPlayerHand() {
   // Check how many of each card was dealt to the player
@@ -106,6 +101,10 @@ function displayPlayerHand() {
   playerCardPaper = p1.filter(playerCard => playerCard === 'Paper');
   playerCardScissors = p1.filter(playerCard => playerCard === 'Scissors');
 
+  // TODO: Fix bug that allows cards to stack on hand on top of each other when
+  //       this function is called again and again...
+
+  // Dynamically insert HTML, insert card amounts:
   contentWrap.insertAdjacentHTML('beforeend', `
     <div class="hand">
       <div class="player-hand player-hand-rock" >
@@ -123,21 +122,32 @@ function displayPlayerHand() {
     </div>`
   );
 
-  playerHandHandler();
-}
-
-function playerHandHandler() {
   const playerHand = document.querySelectorAll('.player-hand img');
 
   playerHand.forEach(card => {
     card.addEventListener('click', (e) => {
       const targetName = e.target.name;
-      console.log(targetName);
+      switch(targetName) {
+        case 'Rock':
+          chosenCardHandler('Rock');
+          break;
+        case 'Paper':
+          chosenCardHandler('Paper');
+          break;
+        case 'Scissors':
+          chosenCardHandler('Scissors');
+          break;
+      }
     });
   });
-
 }
 
+// Helper function to handle selecting the chosen card:
+function chosenCardHandler(card) {
+  let chosenCard = p1.indexOf(card);
+  runGameInstance(p1[chosenCard], p2[currentCard]);
+  currentCard++; // Increment AI current card
+}
 
 /*
 * Function that adds two cards (from p1 and p2's deck) to the display.
@@ -190,10 +200,8 @@ function addMessage(message, btnText) {
     });
 }
 
-
-//TODO: Update this function to allow player to choose their own card from their hand
 /*
-* Function that draws a new card for each player
+* Function that draws a new card in the play area for each player
 * @param  {Boolean} hasWon  State of win/lose for round
 */
 function drawCard(hasWon) {
@@ -223,12 +231,14 @@ function drawCard(hasWon) {
   }, 3000); // 3s
 }
 
+//TODO: Update to allow player to manually choose their card to play
 /*
 * Function to run the actual game instance
 * @param  {String} p1Card  Name of P1's current card
 * @param  {String} p2Card  Name of P2's current card
 */
 function runGameInstance(p1Card, p2Card) {
+  displayPlayerHand(); // Update player hand
   uiHandler(); // Update scores
 
   // Assess both player arrays to determine whether game is over
