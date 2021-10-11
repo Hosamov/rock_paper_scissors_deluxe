@@ -174,8 +174,8 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  top: 2%;
-  bottom: 15%;
+  top: 18%;
+  bottom: 35%;
   left: 10%;
   right: 10%;
   margin: 5px 0;
@@ -226,15 +226,15 @@ button {
 }
 
 .player-hand-rock:hover {
-  opacity: .7;
+  bottom: 25px;
 }
 
 .player-hand-paper:hover {
-  opacity: .7;
+  bottom: 25px;
 }
 
 .player-hand-scissors:hover {
-  opacity: .7;
+  bottom: 25px;
 }
 
 /* Centered text on card images */
@@ -245,6 +245,30 @@ button {
   top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.ai-hand {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  top: -150px;
+  left: 10%;
+  right: 10%;
+  margin: 5px 0;
+  text-align: center;
+  align-items: center;
+}
+
+.ai-hand-back {
+  margin: 5px;
+  position: relative;
+}
+
+.ai-hand-back img {
+  width: 150px;
+  height: 225px;
+  opacity: 1;
 }
 
 /***********Message Styles************/
@@ -288,8 +312,8 @@ button {
 .player-card img {
   position: relative;
   left: 9px;
-  width: 150px;
-  height: 225px;
+  width: 100px; /*150*/
+  height: 150px; /*125*/
   border-radius: 8%;
   box-shadow: 3px 1px 1px 1px rgba(0,0,0,0.2);
 }
@@ -303,8 +327,8 @@ button {
 .ai-card img {
   position: relative;
   right: 9px;
-  width: 150px;
-  height: 225px;
+  width: 100px; /*150*/
+  height: 150px; /*125*/
   border-radius: 8%;
   box-shadow: -3px -1px 1px 1px rgba(0,0,0,0.2);
 }
@@ -474,13 +498,13 @@ button {
 
 @media (max-height: 1368px) {
   .player-card img {
-    width: 200px;
-    height: 300px;
+    width: 180px;
+    height: 270px;
   }
 
   .ai-card img {
-    width: 200px;
-    height: 300px;
+    width: 180px;
+    height: 270px;
   }
 }
 

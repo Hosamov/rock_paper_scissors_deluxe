@@ -128,6 +128,8 @@ function displayPlayerHand() {
   //       to click the card for that device.
 
   playerHand.forEach(card => {
+
+    // TODO: Add a timer on the click handler to avoid multi-clicks...
     card.addEventListener('click', (e) => {
       const targetName = e.target.name;
       console.log(targetName);
@@ -287,10 +289,8 @@ function runGameInstance(p1Card, p2Card) {
         // Remove both P1 & P2's tied cards from their hands temporarily:
         let p1CardIndex = p1.indexOf(p1Card);
         console.log(p1Card, p1CardIndex);
-        p1.splice(p1CardIndex, 1)
-        // p1.shift(p1.indexOf(p1Card));
-
-        p2.shift(0);
+        p1.splice(p1CardIndex, 1); // Remove player's card at its index
+        p2.shift(0); // Remove first card from AI's array
 
         // Display the tie pot:
         setTimeout(() => {
@@ -370,6 +370,9 @@ function deviceUpdateHandler(bool, res1, res2, tieWinner) {
   tieWinHandler(tieWinner);
 }
 
+
+// TODO: Remove UI in this mode:
+
 // Helper function to display current cards per player:
 function uiHandler() {
   const playerScore = document.getElementById('player-score');
@@ -437,8 +440,6 @@ export function handleClassicFAIcon() {
     infoMessage();
   // }
 }
-
-
 
 /*
  * Helper function to get and return the corresponding device image randomly
