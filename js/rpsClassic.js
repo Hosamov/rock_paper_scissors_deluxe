@@ -20,7 +20,7 @@ let newDeck = []; //init newDeck to hold all card values before dealing
 let playerDecks = [ [],[] ];
 let [p1, p2] = playerDecks; // p1 = human player, p2 = ai player
 let tieArr = []; // Array to keep track of tied cards
-let cardFlipped = false; // Globally track whether card is flipped
+// let cardFlipped = false; // Globally track whether card is flipped
 let currentCard = 0; // index of current card in player's deck
 let playerCardRock = [];
 let playerCardPaper, playerCardScissors;
@@ -124,6 +124,9 @@ function displayPlayerHand() {
 
   const playerHand = document.querySelectorAll('.player-hand img');
 
+  // TODO: If there are 0 cards remaining of a device, don't allow the player
+  //       to click the card for that device.
+
   playerHand.forEach(card => {
     card.addEventListener('click', (e) => {
       const targetName = e.target.name;
@@ -145,9 +148,7 @@ function displayPlayerHand() {
 
 // Helper function to handle selecting the chosen card:
 function chosenCardHandler(card) {
-  console.log(card);
   chosenCard = p1.indexOf(card); // Update global variable
-  console.log(chosenCard);
   runGameInstance(p1[chosenCard], p2[currentCard]);
 
   if(currentCard >= (p2.length -1) || currentCard === undefined) {
@@ -162,19 +163,19 @@ function chosenCardHandler(card) {
 * @param {String} p2ImageFront  Card image for P2
 */
 function addUpdateCard(p1ImageFront, p2ImageFront) { //classes: ai-card, player-card
-  const cardImageBack = './images/card_back.png';
+  // const cardImageBack = './images/card_back.png';
   playArea.innerHTML = ''; //Clear the play area of existing cards
 
   // Display back of card until cardFlipped:
   playArea.insertAdjacentHTML('beforeend', `
     <div class="ai-card">
-      <img src="${!cardFlipped ? cardImageBack : p2ImageFront}">
+      <img src="${p2ImageFront}">
     </div>
     <div class="player-card">
-      <img src="${!cardFlipped ? cardImageBack : p1ImageFront}">
+      <img src="${p1ImageFront}">
     </div>
   `);
-  cardFlipped = false; // Reset global var for reuse
+  // cardFlipped = false; // Reset global var for reuse
 }
 
 /*
@@ -258,47 +259,46 @@ function runGameInstance(p1Card, p2Card) {
   addUpdateCard(cardImageHandler(p1Card), cardImageHandler(p2Card));
   const playerCard = document.querySelector('.player-card img');
 
-  // Perform following logic once game area has been clicked on:
-  playerCard.addEventListener('click', () => {
-    cardFlipped = true;
-    addUpdateCard(cardImageHandler(p1Card), cardImageHandler(p2Card)); //flip cards over
+  // Perform game logic:
+  // Loop through devices array to check cards against each other:
+  devices.forEach(device => {
+    if (p1Card === device.device) {
+      if (p2Card === device.win) {
+        deviceUpdateHandler(true, 'win', 'lose', p1);
+        console.log(`Player receives: ${device.win}`);
+        gameUpdateHandler(p1, p2, device.device, device.win);
+      } else if (p2Card === device.lose) {
+        deviceUpdateHandler(false, 'lose', 'win', p2);
+        console.log(`Player loses: ${device.device}`);
+        gameUpdateHandler(p2, p1, device.device); // Note: P2 takes only 3 args (as opposed to 4 for P1)
+      } else { // Tie round: Begin War...
 
-    // Loop through devices array to check cards against each other:
-    devices.forEach(device => {
-      if (p1Card === device.device) {
-        if (p2Card === device.win) {
-          deviceUpdateHandler(true, 'win', 'lose', p1);
-          console.log(`Player receives: ${device.win}`);
-          gameUpdateHandler(p1, p2, device.device, device.win);
-        } else if (p2Card === device.lose) {
-          deviceUpdateHandler(false, 'lose', 'win', p2);
-          console.log(`Player loses: ${device.device}`);
-          gameUpdateHandler(p2, p1, device.device); // Note: P2 takes only 3 args (as opposed to 4 for P1)
-        } else { // Tie round: Begin War...
-          drawCard(); // Arg: NULL
-          tieArr.push(p1Card, p2Card); // Place tied cards into their own array
+        // TODO: Update player UI text with card update.
+        //       Hmm... Is the player UI necessary now?
 
-          // Shuffle both P1 & P2 decks to add randomness after > 4 cards in tie pot
-          if (tieArr.length > 4) {
-            console.log('Shuffling p2 deck...');
-            shuffleDeck(p2);
-          }
-          // Remove both P1 & P2's tied cards from their hands temporarily:
-          let p1CardIndex = p1.indexOf(p1Card);
-          console.log(p1Card, p1CardIndex);
-          p1.splice(p1CardIndex, 1, '')
-          // p1.shift(p1.indexOf(p1Card));
+        drawCard(); // Arg: NULL
+        tieArr.push(p1Card, p2Card); // Place tied cards into their own array
 
-          p2.shift(0);
-
-          // Display the tie pot:
-          setTimeout(() => {
-            tiePot.classList.add('active');
-            tiePotText.innerText = tieArr.length;
-          }, 2000); // Wait 2s
+        // Shuffle both P1 & P2 decks to add randomness after > 4 cards in tie pot
+        if (tieArr.length > 4) {
+          console.log('Shuffling p2 deck...');
+          shuffleDeck(p2);
         }
+        // Remove both P1 & P2's tied cards from their hands temporarily:
+        let p1CardIndex = p1.indexOf(p1Card);
+        console.log(p1Card, p1CardIndex);
+        p1.splice(p1CardIndex, 1)
+        // p1.shift(p1.indexOf(p1Card));
+
+        p2.shift(0);
+
+        // Display the tie pot:
+        setTimeout(() => {
+          tiePot.classList.add('active');
+          tiePotText.innerText = tieArr.length;
+        }, 2000); // Wait 2s
       }
-    });
+    }
   });
 }
 
@@ -334,6 +334,26 @@ function endGame() {
 
 
 ////HELPER FUNCTIONS////
+
+/*
+* Helper function that takes two player arrays and two card values, then
+* adds/removes to/from correct hand:
+*/
+function gameUpdateHandler(arr1, arr2, card, losingCard) {
+  // Push card to win arr, shift card from lose arr
+  let cardIndex = arr2.indexOf(card);
+  console.log(card, cardIndex);
+
+  return (!losingCard) ? (
+    arr1.push(card),
+    // arr2.shift(card)
+    arr2.splice(cardIndex, 1)
+  ) : (
+    arr1.push(losingCard),
+    // arr2.shift(losingCard)
+    arr2.splice(cardIndex, 1)
+  );
+}
 
 // Function to animate Win/Lose/Tie state:
 function winLoseTieHandler(p1State, p2State) {
@@ -418,25 +438,7 @@ export function handleClassicFAIcon() {
   // }
 }
 
-/*
-* Helper function that takes two player arrays and two card values, then
-* adds/removes to/from correct hand:
-*/
-function gameUpdateHandler(arr1, arr2, card, losingCard) {
-  // Push card to win arr, shift card from lose arr
-  let cardIndex = arr2.indexOf(card);
-  console.log(card, cardIndex);
 
-  return (!losingCard) ? (
-    arr1.push(card),
-    // arr2.shift(card)
-    arr2.splice(cardIndex, 1, '')
-  ) : (
-    arr1.push(losingCard),
-    // arr2.shift(losingCard)
-    arr2.splice(cardIndex, 1, '')
-  );
-}
 
 /*
  * Helper function to get and return the corresponding device image randomly
