@@ -11,6 +11,7 @@ const tiePot = document.getElementById('tie-pot');
 const tiePotText = document.querySelector('.tie-pot-centered');
 const infoContainer = document.getElementById('info-container');
 const contentWrap = document.getElementById('content-wrap');
+const hand = document.querySelector('.hand');
 
 //Declare global variables needed:
 let gameStart = false;
@@ -23,6 +24,7 @@ let cardFlipped = false; // Globally track whether card is flipped
 let currentCard = 0; // index of current card in player's deck
 let playerCardRock = [];
 let playerCardPaper, playerCardScissors;
+let chosenCard;
 
 /*
 * Function to display the main game menu/information div
@@ -100,25 +102,23 @@ function displayPlayerHand() {
   playerCardRock = p1.filter(playerCard => playerCard === 'Rock');
   playerCardPaper = p1.filter(playerCard => playerCard === 'Paper');
   playerCardScissors = p1.filter(playerCard => playerCard === 'Scissors');
+  console.log(playerCardRock, playerCardPaper, playerCardScissors);
 
-  // TODO: Fix bug that allows cards to stack on hand on top of each other when
-  //       this function is called again and again...
+  hand.innerHTML = ``; // Reset hand div area
 
   // Dynamically insert HTML, insert card amounts:
-  contentWrap.insertAdjacentHTML('beforeend', `
-    <div class="hand">
-      <div class="player-hand player-hand-rock" >
-        <img src="images/card_hand_rock.png" name="Rock">
-        <div class="cards-text-centered">${playerCardRock.length}</div>
-      </div>
-      <div class="player-hand player-hand-paper" >
-        <img src="images/card_hand_paper.png" name="Paper">
-        <div class="cards-text-centered">${playerCardPaper.length}</div>
-      </div>
-      <div class="player-hand player-hand-scissors" >
-        <img src="images/card_hand_scissors.png" name="Scissors">
-        <div class="cards-text-centered">${playerCardScissors.length}</div>
-      </div>
+  hand.insertAdjacentHTML('beforeend', `
+    <div class="player-hand player-hand-rock" >
+      <img src="images/card_hand_rock.png" name="Rock">
+      <div class="cards-text-centered">${playerCardRock.length}</div>
+    </div>
+    <div class="player-hand player-hand-paper" >
+      <img src="images/card_hand_paper.png" name="Paper">
+      <div class="cards-text-centered">${playerCardPaper.length}</div>
+    </div>
+    <div class="player-hand player-hand-scissors" >
+      <img src="images/card_hand_scissors.png" name="Scissors">
+      <div class="cards-text-centered">${playerCardScissors.length}</div>
     </div>`
   );
 
@@ -127,6 +127,7 @@ function displayPlayerHand() {
   playerHand.forEach(card => {
     card.addEventListener('click', (e) => {
       const targetName = e.target.name;
+      console.log(targetName);
       switch(targetName) {
         case 'Rock':
           chosenCardHandler('Rock');
@@ -144,8 +145,14 @@ function displayPlayerHand() {
 
 // Helper function to handle selecting the chosen card:
 function chosenCardHandler(card) {
-  let chosenCard = p1.indexOf(card);
+  console.log(card);
+  chosenCard = p1.indexOf(card); // Update global variable
+  console.log(chosenCard);
   runGameInstance(p1[chosenCard], p2[currentCard]);
+
+  if(currentCard >= (p2.length -1) || currentCard === undefined) {
+    currentCard = 0;
+  }
   currentCard++; // Increment AI current card
 }
 
@@ -218,16 +225,16 @@ function drawCard(hasWon) {
 
   // Clear play area, draw new cards:
   setTimeout(() => {
-    if (hasWon) playArea.innerHTML = ''; // Reset play area
+    if (hasWon) playArea.innerHTML = ''; // Reset the play area
+    displayPlayerHand();
+    // // Ensure there are still cards before resetting index:
+    // if(p2[currentCard] === undefined) {
+    //   currentCard = 0;
+    // }
 
-    // Ensure there are still cards before resetting index:
-    if(p1[currentCard] === undefined || p2[currentCard] === undefined) {
-      currentCard = 0;
-    }
-
-    // Draw new card at the current index
-    runGameInstance(p1[currentCard], p2[currentCard]);
-    currentCard++;
+    // // Draw new card at the current index
+    // runGameInstance(p1[chosenCard], p2[currentCard]);
+    // currentCard++;
   }, 3000); // 3s
 }
 
@@ -238,6 +245,7 @@ function drawCard(hasWon) {
 * @param  {String} p2Card  Name of P2's current card
 */
 function runGameInstance(p1Card, p2Card) {
+  console.log(p1Card, p2Card);
   displayPlayerHand(); // Update player hand
   uiHandler(); // Update scores
 
@@ -260,9 +268,11 @@ function runGameInstance(p1Card, p2Card) {
       if (p1Card === device.device) {
         if (p2Card === device.win) {
           deviceUpdateHandler(true, 'win', 'lose', p1);
+          console.log(`Player receives: ${device.win}`);
           gameUpdateHandler(p1, p2, device.device, device.win);
         } else if (p2Card === device.lose) {
           deviceUpdateHandler(false, 'lose', 'win', p2);
+          console.log(`Player loses: ${device.device}`);
           gameUpdateHandler(p2, p1, device.device); // Note: P2 takes only 3 args (as opposed to 4 for P1)
         } else { // Tie round: Begin War...
           drawCard(); // Arg: NULL
@@ -270,12 +280,15 @@ function runGameInstance(p1Card, p2Card) {
 
           // Shuffle both P1 & P2 decks to add randomness after > 4 cards in tie pot
           if (tieArr.length > 4) {
-            console.log('Shuffling decks...');
-            shuffleDeck(p1);
+            console.log('Shuffling p2 deck...');
             shuffleDeck(p2);
           }
           // Remove both P1 & P2's tied cards from their hands temporarily:
-          p1.shift(0);
+          let p1CardIndex = p1.indexOf(p1Card);
+          console.log(p1Card, p1CardIndex);
+          p1.splice(p1CardIndex, 1, '')
+          // p1.shift(p1.indexOf(p1Card));
+
           p2.shift(0);
 
           // Display the tie pot:
@@ -411,12 +424,17 @@ export function handleClassicFAIcon() {
 */
 function gameUpdateHandler(arr1, arr2, card, losingCard) {
   // Push card to win arr, shift card from lose arr
+  let cardIndex = arr2.indexOf(card);
+  console.log(card, cardIndex);
+
   return (!losingCard) ? (
     arr1.push(card),
-    arr2.shift(card)
+    // arr2.shift(card)
+    arr2.splice(cardIndex, 1, '')
   ) : (
     arr1.push(losingCard),
-    arr2.shift(losingCard)
+    // arr2.shift(losingCard)
+    arr2.splice(cardIndex, 1, '')
   );
 }
 
