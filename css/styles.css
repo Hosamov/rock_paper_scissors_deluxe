@@ -324,8 +324,6 @@ button {
 .player-card img {
   position: relative;
   left: 9px;
-  width: 100px; /*150*/
-  height: 150px; /*125*/
   border-radius: 8%;
   box-shadow: 3px 1px 1px 1px rgba(0,0,0,0.2);
 }
@@ -370,12 +368,12 @@ button {
 
 .tie-pot.win {
   transition: transform 1s ease-in;
-  transform: translate(0%, 250%) scale(0.0);
+  transform: translate(1000%, 200%) scale(0.0);
 }
 
 .tie-pot.lose {
   transition: transform 1s ease-in;
-  transform: translate(0%, -250%) scale(0.0);
+  transform: translate(1000%, -200%) scale(0.0);
 }
 
 .opaque {
@@ -395,30 +393,28 @@ button {
 /************WIN*************/
 /*When player wins:*/
 .player-card.win img {
-  border-color: blue;
   transition: transform 1s ease-in;
-  transform: translate(-400%, 80%) scale(0.0);
+  transform: translate(0, 100%) scale(0.0);
 }
 
 /*When AI wins:*/
 .ai-card.win img {
-  border-color: red;
   /*Animate to top left*/
   transition: transform 1s ease-in;
-  transform: translate(400%, 80%) scale(0.0);
+  transform: translate(0, 100%) scale(0.0);
 }
 
 /************LOSE*************/
 /*When player loses to AI:*/
 .player-card.lose img {
-  transition: transform 1s ease-in;
-  transform: translate(-400%, -175%) scale(0.0);   /*Animate to top left*/
+  transition: transform .9s ease-in;
+  transform: translate(0, -175%) scale(0.0);   /*Animate to top left*/
 }
 
 /*When AI loses to player:*/
 .ai-card.lose img {
-  transition: transform 1s ease-in;
-  transform: translate(400%, -175%) scale(0.0); /*Animate to bottom left*/
+  transition: transform .9s ease-in;
+  transform: translate(0, -175%) scale(0.0); /*Animate to bottom left*/
 }
 
 /************TIE*************/
@@ -433,34 +429,6 @@ button {
   transition: transform 1s ease-in;
   transform: translate(400%, -38%) scale(0);
 }
-
-/*****************WIN TIE animations******************/
-
-.player-tie.win img {
-  position: absolute;
-  transition: transform .6s ease-in;
-  transform: translate(-1000%, 0%) scale(0);
-}
-
-.ai-tie.win img {
-  position: absolute;
-  transition: transform .6s ease-in;
-  transform: translate(-1000%, 0%) scale(0);
-}
-
-/*****************LOSE TIE animations******************/
-.player-tie.lose img {
-  position: absolute;
-  transition: transform .6s ease-in;
-  transform: translate(-1000%, -1000%) scale(0);
-}
-
-.ai-tie.lose img {
-  position: absolute;
-  transition: transform .6s ease-in;
-  transform: translate(-1000%, 1000%) scale(0);
-}
-/****************************************/
 
 .center {
   transform: translate(-50%);
@@ -510,37 +478,43 @@ button {
 
 @media (max-height: 1368px) {
   .player-card img {
-    width: 180px;
-    height: 270px;
+    width: 160px;
+    height: 240px;
   }
 
   .ai-card img {
-    width: 180px;
-    height: 270px;
+    width: 160px;
+    height: 240px;
   }
 }
 
 @media (max-height: 820px) {
   .player-card img {
-    width: 130px;
-    height: 195px;
+    width: 110px;
+    height: 165px;
   }
 
   .ai-card img {
-    width: 130px;
-    height: 195px;
+    width: 110px;
+    height: 165px;
   }
+
+  .play-area {
+    top: 18%;
+    bottom: 40%;
+  }
+
 }
 
 @media (max-height: 620px) {
   .player-card img {
-    width: 120px;
-    height: 180px;
+    width: 100px;
+    height: 150px;
   }
 
   .ai-card img {
-    width: 120px;
-    height: 180px;
+    width: 100px;
+    height: 150px;
   }
 
   .game-setup {
@@ -549,28 +523,6 @@ button {
 }
 
 @media (max-width: 1024px) {
-  /*When player wins:*/
-  .player-card.win img {
-    transform: translate(-100%, 80%) scale(0.0);
-  }
-
-  /*When AI wins:*/
-  .ai-card.win img {
-    transform: translate(100%, 65%) scale(0.0);
-  }
-
-  /*When player loses to AI:*/
-  .player-card.lose img {
-    /*Animate to top left*/
-    transform: translate(-100%, -200%) scale(0.0);
-  }
-
-  /*When AI loses to player:*/
-  .ai-card.lose img {
-    /*Animate to bottom left*/
-    transform: translate(100%, -200%) scale(0.0);
-  }
-
   /*When player card ties with AI:*/
   .player-card.tie img {
     transform: translate(-250%, -38%) scale(0);
@@ -590,11 +542,82 @@ button {
   a {
     font-size: .9rem;
   }
+
+  .player-hand img {
+    width: 90px;
+    height: 135px;
+    /* opacity: 1; */
+  }
+
+  .player-hand-rock.active:hover {
+    bottom: 30px;
+  }
+
+  .player-hand-paper.active:hover {
+    bottom: 30px;
+  }
+
+  .player-hand-scissors.active:hover {
+    bottom: 30px;
+  }
+
+  .inactive {
+    cursor: default;
+    opacity: 0.5;
+    bottom: -30px;
+  }
+
+  .inactive:hover {
+    cursor: default;
+    opacity: 0.5;
+    bottom: -30px;
+  }
+
+  .ai-hand {
+    top: -115px;
+  }
+
+  .ai-hand-back img {
+    width: 90px;
+    height: 135px;
+    /* opacity: 1; */
+  }
+
+  .tie-pot.win {
+    transition: transform 1s ease-in;
+    transform: translate(300%, 350%) scale(0.0);
+  }
+
+  .tie-pot.lose {
+    transition: transform 1s ease-in;
+    transform: translate(300%, -350%) scale(0.0);
+  }
+
+  .instructions {
+    top: 34px;
+  }
+
 }
 
 @media (max-width: 290px) {
   h1 {
     font-size: 1.7rem;
+  }
+
+  .player-hand img {
+    width: 85px;
+    height: 127.5px;
+    /* opacity: 1; */
+  }
+
+  .ai-hand {
+    top: -115px;
+  }
+
+  .ai-hand-back img {
+    width: 85px;
+    height: 127.5px;
+    /* opacity: 1; */
   }
 }
 
