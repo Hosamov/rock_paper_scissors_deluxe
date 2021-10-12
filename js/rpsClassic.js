@@ -12,6 +12,7 @@ const tiePotText = document.querySelector('.tie-pot-centered');
 const infoContainer = document.getElementById('info-container');
 const contentWrap = document.getElementById('content-wrap');
 const hand = document.querySelector('.hand');
+const aiHand = document.querySelector('.ai-hand');
 
 //Declare global variables needed:
 let gameStart = false;
@@ -20,21 +21,20 @@ let newDeck = []; //init newDeck to hold all card values before dealing
 let playerDecks = [ [],[] ];
 let [p1, p2] = playerDecks; // p1 = human player, p2 = ai player
 let tieArr = []; // Array to keep track of tied cards
-// let cardFlipped = false; // Globally track whether card is flipped
 let currentCard = 0; // index of current card in player's deck
 let playerCardRock = [];
 let playerCardPaper, playerCardScissors;
 let chosenCard;
 
+
+//TODO: Toggle correct FA icon (gamepad/info):
+
 /*
 * Function to display the main game menu/information div
 */
-
-//TODO: Toggle correct FA icon (gamepad/info)
 function infoMessage() {
   console.log('Toggling infoContainer visibility from rpsClassic.js');
   infoContainer.classList.remove('visible');
-  // alert('clicked.');
 }
 
 /*
@@ -89,7 +89,7 @@ function dealCards(newDeck) {
     playerDecks[i % 2].push(newDeck[i]);
   }
 
-  displayPlayerHand();
+  displayHands();
   uiHandler(p1, p2); // Send current score data to ui handler
 }
 
@@ -97,27 +97,42 @@ function dealCards(newDeck) {
 * Function to display a hand of the dealt cards to the player
 * Displays before & while the cards are player
 */
-function displayPlayerHand() {
+function displayHands() {
   // Check how many of each card was dealt to the player
   playerCardRock = p1.filter(playerCard => playerCard === 'Rock');
   playerCardPaper = p1.filter(playerCard => playerCard === 'Paper');
   playerCardScissors = p1.filter(playerCard => playerCard === 'Scissors');
   console.log(playerCardRock, playerCardPaper, playerCardScissors);
 
-  hand.innerHTML = ``; // Reset hand div area
+  aiHand.innerHTML = ``; // Clear ai-hand div
+  hand.innerHTML = ``;   // Clear hand div
 
-  // Dynamically insert HTML, insert card amounts:
+  // Dynamically insert 3 AI cards above play area:
+  aiHand.insertAdjacentHTML('beforeend', `
+    <div class="ai-hand-back" >
+      <img src="images/card_back.png">
+    </div>
+    <div class="ai-hand-back" >
+      <img src="images/card_back.png">
+    </div>
+    <div class="ai-hand-back" >
+      <img src="images/card_back.png">
+    </div>`
+  );
+
+  // Dynamically insert player hand below play area
+  // Add appropriate class to each div based on whether cards remain
   hand.insertAdjacentHTML('beforeend', `
-    <div class="player-hand player-hand-rock" >
-      <img src="images/card_hand_rock.png" name="Rock">
+    <div class="player-hand player-hand-rock ${!playerCardRock.length > 0 ? "inactive" : "active"}"  >
+      <img src="images/card_hand_rock.png" class="${!playerCardRock.length > 0 ? "inactive" : ""}" name="Rock">
       <div class="cards-text-centered">${playerCardRock.length}</div>
     </div>
-    <div class="player-hand player-hand-paper" >
-      <img src="images/card_hand_paper.png" name="Paper">
+    <div class="player-hand player-hand-paper ${!playerCardPaper.length > 0 ? "inactive" : "active"}" >
+      <img src="images/card_hand_paper.png" class="${!playerCardPaper.length > 0 ? "inactive" : ""}" name="Paper">
       <div class="cards-text-centered">${playerCardPaper.length}</div>
     </div>
-    <div class="player-hand player-hand-scissors" >
-      <img src="images/card_hand_scissors.png" name="Scissors">
+    <div class="player-hand player-hand-scissors ${!playerCardScissors.length > 0 ? "inactive" : "active"}" >
+      <img src="images/card_hand_scissors.png" class="${!playerCardScissors.length > 0 ? "inactive" : ""}" name="Scissors">
       <div class="cards-text-centered">${playerCardScissors.length}</div>
     </div>`
   );
@@ -126,37 +141,44 @@ function displayPlayerHand() {
 
   // TODO: If there are 0 cards remaining of a device, don't allow the player
   //       to click the card for that device.
-
   playerHand.forEach(card => {
+    if(!card.classList.contains('inactive')) {
+      console.log(card.classList);
 
-    // TODO: Add a timer on the click handler to avoid multi-clicks...
-    card.addEventListener('click', (e) => {
-      const targetName = e.target.name;
-      console.log(targetName);
-      switch(targetName) {
-        case 'Rock':
-          chosenCardHandler('Rock');
-          break;
-        case 'Paper':
-          chosenCardHandler('Paper');
-          break;
-        case 'Scissors':
-          chosenCardHandler('Scissors');
-          break;
-      }
-    });
+      // TODO: Add a timer on the click handler to avoid multi-clicks...
+
+      card.addEventListener('click', (e) => {
+        const targetName = e.target.name;
+        console.log(targetName);
+        switch(targetName) {
+          case 'Rock':
+            chosenCardHandler('Rock');
+            break;
+          case 'Paper':
+            chosenCardHandler('Paper');
+            break;
+          case 'Scissors':
+            chosenCardHandler('Scissors');
+            break;
+        }
+      });
+    } else {
+      console.log(`card is inactive. You can't click it...`);
+    }
   });
 }
 
 // Helper function to handle selecting the chosen card:
 function chosenCardHandler(card) {
-  chosenCard = p1.indexOf(card); // Update global variable
-  runGameInstance(p1[chosenCard], p2[currentCard]);
+  setTimeout(() => {
+    chosenCard = p1.indexOf(card); // Update global variable
+    runGameInstance(p1[chosenCard], p2[currentCard]);
 
-  if(currentCard >= (p2.length -1) || currentCard === undefined) {
-    currentCard = 0;
-  }
-  currentCard++; // Increment AI current card
+    if(currentCard >= (p2.length -1) || currentCard === undefined) {
+      currentCard = 0;
+    }
+    currentCard++; // Increment AI current card
+  }, 2000);
 }
 
 /*
@@ -214,7 +236,7 @@ function addMessage(message, btnText) {
 * Function that draws a new card in the play area for each player
 * @param  {Boolean} hasWon  State of win/lose for round
 */
-function drawCard(hasWon) {
+function playCard(hasWon) {
   setTimeout(() => {
     // Animate card styles based on P1 win/lose/tie state:
     if(hasWon === true && hasWon !== null) {
@@ -229,15 +251,7 @@ function drawCard(hasWon) {
   // Clear play area, draw new cards:
   setTimeout(() => {
     if (hasWon) playArea.innerHTML = ''; // Reset the play area
-    displayPlayerHand();
-    // // Ensure there are still cards before resetting index:
-    // if(p2[currentCard] === undefined) {
-    //   currentCard = 0;
-    // }
-
-    // // Draw new card at the current index
-    // runGameInstance(p1[chosenCard], p2[currentCard]);
-    // currentCard++;
+    displayHands();
   }, 3000); // 3s
 }
 
@@ -249,7 +263,7 @@ function drawCard(hasWon) {
 */
 function runGameInstance(p1Card, p2Card) {
   console.log(p1Card, p2Card);
-  displayPlayerHand(); // Update player hand
+  displayHands(); // Update player hand
   uiHandler(); // Update scores
 
   // Assess both player arrays to determine whether game is over
@@ -278,7 +292,7 @@ function runGameInstance(p1Card, p2Card) {
         // TODO: Update player UI text with card update.
         //       Hmm... Is the player UI necessary now?
 
-        drawCard(); // Arg: NULL
+        playCard(); // Arg: NULL
         tieArr.push(p1Card, p2Card); // Place tied cards into their own array
 
         // Shuffle both P1 & P2 decks to add randomness after > 4 cards in tie pot
@@ -340,17 +354,15 @@ function endGame() {
 * adds/removes to/from correct hand:
 */
 function gameUpdateHandler(arr1, arr2, card, losingCard) {
-  // Push card to win arr, shift card from lose arr
+  // Push card to win arr, splice card from lose arr
   let cardIndex = arr2.indexOf(card);
   console.log(card, cardIndex);
 
   return (!losingCard) ? (
     arr1.push(card),
-    // arr2.shift(card)
-    arr2.splice(cardIndex, 1)
+    arr2.splice(cardIndex, 1) // Replace one index at index of cardIndex
   ) : (
     arr1.push(losingCard),
-    // arr2.shift(losingCard)
     arr2.splice(cardIndex, 1)
   );
 }
@@ -359,13 +371,13 @@ function gameUpdateHandler(arr1, arr2, card, losingCard) {
 function winLoseTieHandler(p1State, p2State) {
   const playerCard = document.querySelector('.player-card');
   const aiCard = document.querySelector('.ai-card');
-  playerCard.classList.add(p1State);
+  playerCard.classList.add(p1State); // TODO: Bug?
   aiCard.classList.add(p2State);
 }
 
 // Helper function to call main functions from within runGameInstance():
 function deviceUpdateHandler(bool, res1, res2, tieWinner) {
-  drawCard(bool);
+  playCard(bool);
   tieResult(res1, res2);
   tieWinHandler(tieWinner);
 }

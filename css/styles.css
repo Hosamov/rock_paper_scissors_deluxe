@@ -222,22 +222,34 @@ button {
 .player-hand img {
   width: 150px;
   height: 225px;
-  opacity: 1;
+  /* opacity: 1; */
 }
 
-.player-hand-rock:hover {
+.player-hand-rock.active:hover {
   bottom: 25px;
 }
 
-.player-hand-paper:hover {
+.player-hand-paper.active:hover {
   bottom: 25px;
 }
 
-.player-hand-scissors:hover {
+.player-hand-scissors.active:hover {
   bottom: 25px;
 }
 
-/* Centered text on card images */
+.inactive {
+  cursor: default;
+  opacity: 0.5;
+  bottom: -25px;
+}
+
+.inactive:hover {
+  cursor: default;
+  opacity: 0.5;
+  bottom: -25px;
+}
+
+/* Centered text/digits on card images */
 .cards-text-centered {
   font-size: 2rem;
   font-weight: bold;
