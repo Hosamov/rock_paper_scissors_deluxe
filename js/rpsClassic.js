@@ -16,6 +16,7 @@ const aiHand = document.querySelector('.ai-hand');
 
 //Declare global variables needed:
 let gameStart = false;
+let gameInPlay = true;
 let deckSize = 18; // initial value (18, 36, 54)
 let newDeck = []; //init newDeck to hold all card values before dealing
 let playerDecks = [ [],[] ];
@@ -26,6 +27,8 @@ let playerCardRock = [];
 let playerCardPaper, playerCardScissors;
 let chosenCard;
 let canClick = true; // Set ability of user to select a card
+
+instructions.classList.add('visible');
 
 //TODO: Toggle correct FA icon (gamepad/info):
 /*
@@ -415,8 +418,13 @@ export function handleClassicFAIcon() {
     //   console.log('The icon is a gamepad.');
     //   instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
     // } else {
-      console.log('The icon is a info circle');
-      instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
+    if(instructions.classList.contains('visible')) {
+      console.log('I am visible.');
+      gameInPlay ? instructions.innerHTML = `<i class="fas fa-info-circle"></i>` :
+                      instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
+    } else {
+      console.log('I am not visible.');
+    }
     // }
     infoMessage();
   // }

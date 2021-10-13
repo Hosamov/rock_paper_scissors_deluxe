@@ -7,7 +7,10 @@ import instructions from './gameInstructions.js';
 const infoContainer = document.getElementById('info-container');
 const gameInstructions = document.getElementById('game-instructions');
 const instructionsIcon = document.getElementById('instructions');
-  let gameStart = true;
+let gameStart = true;
+let gameInPlay = false;
+
+// instructionsIcon.classList = '';
 
 /*
 * Main function to display the main game menu/information div
@@ -39,7 +42,6 @@ function infoMessage() {
           gameInstructions.innerHTML = inst.instruction;
         }
       })
-
       btn.classList.add('active');
     });
   });
@@ -63,48 +65,54 @@ function infoMessage() {
       case 'classic':
         console.log('You chose "Classic game mode"');
         gameStart = false;
+        gameInPlay = true;
         createClassicDeck(deckSize, true);
         handleClassicFAIcon();
+        instructionsIcon.classList.add('visible');
         break;
       case 'war':
-        alert('You chose "War"');
+        console.log('You chose "War"');
         gameStart = false;
         createWarDeck(deckSize, true);
         handleWarFAIcon();
         break;
       case 'memory':
-        alert('You chose "Memory"');
+        console.log('You chose "Memory"');
         break;
     }
-    // console.log(e.target);
-
-   });
+  });
 }
 
 // Function to change information icon based on visible state of info window
-export function handleFAIcon() {
-  console.log('handleFAIcon');
-  // If the game is just starting, dont' display an icon:
-  // if(gameStart === true) {
-    // instructions.innerHTML = ``;
-  //   infoMessage(); // Do display info by default
-  // } else {
-    // Otherwise, display the applicable information or gamepad FontAwesome icon:
-    // if(infoContainer.classList.contains('visible')) {
-      instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
-    // } else {
-    //   instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
-    // }
-  // }
-  // infoContainer.classList.toggle('visible');
-  infoMessage();
-}
+// export function handleFAIcon() {
+//   console.log('handleFAIcon');
+//   // If the game is just starting, dont' display an icon:
+//   // if(gameStart === true) {
+//     // instructions.innerHTML = ``;
+//   //   infoMessage(); // Do display info by default
+//   // } else {
+//     // Otherwise, display the applicable information or gamepad FontAwesome icon:
+//     // if(infoContainer.classList.contains('visible')) {
+//       instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
+//     // } else {
+//     //   instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
+//     // }
+//   // }
+//   // infoContainer.classList.toggle('visible');
+//   infoMessage();
+// }
 
 
 
  // Click handler for information button:
 instructionsIcon.addEventListener('click', () => {
-  handleFAIcon();
+  if(instructionsIcon.classList.contains('visible')) {
+    console.log('I am visible.');
+    gameInPlay ? instructionsIcon.innerHTML = `<i class="fas fa-gamepad"></i>` :
+                instructionsIcon.innerHTML = `<i class="fas fa-info-circle"></i>`;
+  } else {
+    console.log('I am not visible.');
+  }
 });
 
 // Show info screen upon game start:
