@@ -1,4 +1,4 @@
-import {createClassicDeck, handleClassicFAIcon} from './rpsClassic.js';
+import {createClassicDeck} from './rpsClassic.js';
 import {createWarDeck, handleWarFAIcon} from './rpsWar.js';
 // import {createMemoryDeck, handleMemoryFAIcon} from './rpsMemory.js';
 
@@ -8,9 +8,9 @@ const infoContainer = document.getElementById('info-container');
 const gameInstructions = document.getElementById('game-instructions');
 const instructionsIcon = document.getElementById('instructions');
 let gameStart = true;
-let gameInPlay = false;
+let showMenu = true;
 
-// instructionsIcon.classList = '';
+instructionsIcon.classList = '';
 
 /*
 * Main function to display the main game menu/information div
@@ -65,9 +65,9 @@ function infoMessage() {
       case 'classic':
         console.log('You chose "Classic game mode"');
         gameStart = false;
-        gameInPlay = true;
         createClassicDeck(deckSize, true);
-        handleClassicFAIcon();
+        infoContainer.classList.remove('visible');
+        // handleClassicFAIcon();
         instructionsIcon.classList.add('visible');
         break;
       case 'war':
@@ -102,14 +102,16 @@ function infoMessage() {
 //   infoMessage();
 // }
 
-
-
  // Click handler for information button:
 instructionsIcon.addEventListener('click', () => {
   if(instructionsIcon.classList.contains('visible')) {
-    console.log('I am visible.');
-    gameInPlay ? instructionsIcon.innerHTML = `<i class="fas fa-gamepad"></i>` :
+    showMenu ? instructionsIcon.innerHTML = `<i class="fas fa-gamepad"></i>` :
                 instructionsIcon.innerHTML = `<i class="fas fa-info-circle"></i>`;
+    if(!infoContainer.classList.contains('visible')) {
+      infoContainer.classList.add('visible');
+    } else {
+      infoContainer.classList.remove('visible');
+    }
   } else {
     console.log('I am not visible.');
   }
