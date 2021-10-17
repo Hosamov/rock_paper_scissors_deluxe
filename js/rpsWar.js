@@ -4,7 +4,7 @@ import devices from './cardData.js';
 
 // Target global DOM Elements:
 const playArea = document.getElementById('play-area');
-const instructions = document.getElementById('instructions');
+// const instructions = document.getElementById('instructions');
 const playerTie = document.getElementById('player-tie');
 const aiTie = document.getElementById('ai-tie');
 const tiePot = document.getElementById('tie-pot');
@@ -321,22 +321,22 @@ function winTiePotAnimation() {
   }
 }
 
-// Function to change information icon based on visible state of info window
-export function handleWarFAIcon() {
-  // If the game is just starting, dont' display an icon:
-  if(gameStart === true) {
-    instructions.innerHTML = ``;
-    infoMessage(); // Do display info by default
-  } else {
-    // Otherwise, display the applicable information or gamepad FontAwesome icon:
-    if(!infoContainer.classList.contains('visible')) {
-      instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
-    } else {
-      instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
-    }
-    infoMessage();
-  }
-}
+// // Function to change information icon based on visible state of info window
+// export function handleWarFAIcon() {
+//   // If the game is just starting, dont' display an icon:
+//   if(gameStart === true) {
+//     instructions.innerHTML = ``;
+//     infoMessage(); // Do display info by default
+//   } else {
+//     // Otherwise, display the applicable information or gamepad FontAwesome icon:
+//     if(!infoContainer.classList.contains('visible')) {
+//       instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
+//     } else {
+//       instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
+//     }
+//     infoMessage();
+//   }
+// }
 
 /*
 * Helper function that takes two player arrays and two card values, then
@@ -370,6 +370,6 @@ function cardImageHandler(card) {
 //////////////////////////
 
 // Click handler for information button:
-instructions.addEventListener('click', () => {
-  handleWarFAIcon();
-});
+// instructions.addEventListener('click', () => {
+//   handleWarFAIcon();
+// });

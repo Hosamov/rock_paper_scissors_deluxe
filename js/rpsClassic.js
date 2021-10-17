@@ -28,8 +28,6 @@ let playerCardPaper, playerCardScissors;
 let chosenCard;
 let canClick = true; // Set ability of user to select a card
 
-instructions.classList.add('visible');
-
 
 //TODO: Toggle correct FA icon (gamepad/info):
 /*

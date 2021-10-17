@@ -1,5 +1,5 @@
 import {createClassicDeck} from './rpsClassic.js';
-import {createWarDeck, handleWarFAIcon} from './rpsWar.js';
+import {createWarDeck} from './rpsWar.js';
 // import {createMemoryDeck, handleMemoryFAIcon} from './rpsMemory.js';
 
 import instructions from './gameInstructions.js';
@@ -7,10 +7,6 @@ import instructions from './gameInstructions.js';
 const infoContainer = document.getElementById('info-container');
 const gameInstructions = document.getElementById('game-instructions');
 const instructionsIcon = document.getElementById('instructions');
-let gameStart = true;
-let showMenu = true;
-
-instructionsIcon.classList = '';
 
 /*
 * Main function to display the main game menu/information div
@@ -25,8 +21,6 @@ function infoMessage() {
 
   //Display Classic instructions by default:
   gameInstructions.innerHTML = instructions[0].instruction;
-
-  // infoContainer.classList.remove('visible');
 
   // Iterate through  game mode buttons, change card value and add active class to selected button
   btnGameMode.forEach(btn => {
@@ -64,17 +58,13 @@ function infoMessage() {
     switch (gameMode) {
       case 'classic':
         console.log('You chose "Classic game mode"');
-        gameStart = false;
         createClassicDeck(deckSize, true);
-        infoContainer.classList.remove('visible');
-        // handleClassicFAIcon();
-        instructionsIcon.classList.add('visible');
+        handleInfoIcon()
         break;
       case 'war':
         console.log('You chose "War"');
-        gameStart = false;
         createWarDeck(deckSize, true);
-        handleWarFAIcon();
+        handleInfoIcon()
         break;
       case 'memory':
         console.log('You chose "Memory"');
@@ -83,38 +73,25 @@ function infoMessage() {
   });
 }
 
-// Function to change information icon based on visible state of info window
-// export function handleFAIcon() {
-//   console.log('handleFAIcon');
-//   // If the game is just starting, dont' display an icon:
-//   // if(gameStart === true) {
-//     // instructions.innerHTML = ``;
-//   //   infoMessage(); // Do display info by default
-//   // } else {
-//     // Otherwise, display the applicable information or gamepad FontAwesome icon:
-//     // if(infoContainer.classList.contains('visible')) {
-//       instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
-//     // } else {
-//     //   instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
-//     // }
-//   // }
-//   // infoContainer.classList.toggle('visible');
-//   infoMessage();
-// }
-
- // Click handler for information button:
-instructionsIcon.addEventListener('click', () => {
-  if(instructionsIcon.classList.contains('visible')) {
-    showMenu ? instructionsIcon.innerHTML = `<i class="fas fa-gamepad"></i>` :
-                instructionsIcon.innerHTML = `<i class="fas fa-info-circle"></i>`;
-    if(!infoContainer.classList.contains('visible')) {
-      infoContainer.classList.add('visible');
-    } else {
-      infoContainer.classList.remove('visible');
-    }
-  } else {
-    console.log('I am not visible.');
+// Click Handler for information button:
+// (Switch between info icon and gamepad)
+function handleInfoIcon() {
+  if(!instructionsIcon.classList.contains('visible')) {
+    instructionsIcon.classList.add('visible');
   }
+
+  if(!infoContainer.classList.contains('visible')) {
+    infoContainer.classList.add('visible');
+    instructionsIcon.innerHTML = `<i class="fas fa-gamepad"></i>`;
+  } else {
+    infoContainer.classList.remove('visible');
+    instructionsIcon.innerHTML = `<i class="fas fa-info-circle"></i>`;
+  }
+}
+
+// Event Listener for instruction Icon:
+instructionsIcon.addEventListener('click', () => {
+  handleInfoIcon();
 });
 
 // Show info screen upon game start:
