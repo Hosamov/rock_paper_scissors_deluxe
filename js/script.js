@@ -57,20 +57,17 @@ function infoMessage() {
     });
   });
 
-  // TODO: Make game fully reset to the correct mode when "Start Game" is pressed.
-
   // Click handler for the Start Game button:
   btnShuffleDeck.addEventListener('click', (e) => {
     resetGameBoard();
     switch (gameMode) {
       case 'classic':
         createClassicDeck(deckSize, true); // Start a new instance of the game mode
-        handleInfoIcon();
-        ui.forEach(el => el.style.opacity = 0);
+        gameModeHandler(0);
         break;
       case 'war':
         createWarDeck(deckSize, true);
-        handleInfoIcon()
+        gameModeHandler(1)
         break;
       case 'memory':
         console.log('You chose "Memory"');
@@ -79,13 +76,29 @@ function infoMessage() {
   });
 }
 
-// Click Handler for information button:
-// (Switch between info icon and gamepad)
+// Function to reset elements when the game mode changes:
+function resetGameBoard() {
+  playArea.innerHTML = '';
+  hand.innerHTML = '';
+  aiHand.innerHTML =- '';
+}
+
+// HELPER FUNCTIONS:
+
+// Handler function to handle info icon and change ui opacity
+function gameModeHandler(opac) {
+  handleInfoIcon()
+  ui.forEach(el => el.style.opacity = opac); // change ui opacity based on game mode
+}
+
+// Click Handler for information button
+// (Switch between info and gamepad icons)
 function handleInfoIcon() {
+  // First, ensure the icon is viewable by the user:
   if(!instructionsIcon.classList.contains('visible')) {
     instructionsIcon.classList.add('visible');
   }
-
+  // Check if the info container is visible and change icon based on its state:
   if(!infoContainer.classList.contains('visible')) {
     infoContainer.classList.add('visible');
     instructionsIcon.innerHTML = `<i class="fas fa-gamepad"></i>`;
@@ -95,13 +108,7 @@ function handleInfoIcon() {
   }
 }
 
-function resetGameBoard() {
-  playArea.innerHTML = '';
-  hand.innerHTML = '';
-  aiHand.innerHTML =- '';
-}
-
-// Event Listener for instruction Icon:
+// Click handler for instruction Icon:
 instructionsIcon.addEventListener('click', () => {
   handleInfoIcon();
 });
