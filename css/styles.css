@@ -437,7 +437,9 @@ button {
 .ui {
   font-size: 1.8rem;
   color: #fff;
-  left: 8px;
+  left: 10%;
+  right: 10%;
+  text-align: center;
 }
 
 .ui-computer {

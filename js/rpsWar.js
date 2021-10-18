@@ -42,6 +42,7 @@ export function createWarDeck(num, gameReset) {
     tieArr = [];
     currentCard = 0;
     tiePot.classList.remove('active');
+
   }
 
   const splitNum = (num / 3);

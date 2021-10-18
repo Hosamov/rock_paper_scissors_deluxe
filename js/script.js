@@ -7,6 +7,10 @@ import instructions from './gameInstructions.js';
 const infoContainer = document.getElementById('info-container');
 const gameInstructions = document.getElementById('game-instructions');
 const instructionsIcon = document.getElementById('instructions');
+const hand = document.querySelector('.hand');
+const aiHand = document.querySelector('.ai-hand');
+const playArea = document.getElementById('play-area');
+const ui = document.querySelectorAll('.ui');
 
 /*
 * Main function to display the main game menu/information div
@@ -53,16 +57,18 @@ function infoMessage() {
     });
   });
 
+  // TODO: Make game fully reset to the correct mode when "Start Game" is pressed.
+
   // Click handler for the Start Game button:
   btnShuffleDeck.addEventListener('click', (e) => {
+    resetGameBoard();
     switch (gameMode) {
       case 'classic':
-        console.log('You chose "Classic game mode"');
-        createClassicDeck(deckSize, true);
-        handleInfoIcon()
+        createClassicDeck(deckSize, true); // Start a new instance of the game mode
+        handleInfoIcon();
+        ui.forEach(el => el.style.opacity = 0);
         break;
       case 'war':
-        console.log('You chose "War"');
         createWarDeck(deckSize, true);
         handleInfoIcon()
         break;
@@ -87,6 +93,12 @@ function handleInfoIcon() {
     infoContainer.classList.remove('visible');
     instructionsIcon.innerHTML = `<i class="fas fa-info-circle"></i>`;
   }
+}
+
+function resetGameBoard() {
+  playArea.innerHTML = '';
+  hand.innerHTML = '';
+  aiHand.innerHTML =- '';
 }
 
 // Event Listener for instruction Icon:

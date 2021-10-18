@@ -28,8 +28,6 @@ let playerCardPaper, playerCardScissors;
 let chosenCard;
 let canClick = true; // Set ability of user to select a card
 
-
-//TODO: Toggle correct FA icon (gamepad/info):
 /*
 * Function to display the main game menu/information div
 */
@@ -354,7 +352,7 @@ function gameUpdateHandler(arr1, arr2, card, losingCard) {
 function winLoseTieHandler(p1State, p2State) {
   const playerCard = document.querySelector('.player-card');
   const aiCard = document.querySelector('.ai-card');
-  playerCard.classList.add(p1State); // TODO: Bug?
+  playerCard.classList.add(p1State);
   aiCard.classList.add(p2State);
 }
 
@@ -405,42 +403,6 @@ function winTiePotAnimation() {
   }
 }
 
-// Function to change information icon based on visible state of info window
-// export function handleClassicFAIcon() {
-  // instructions.innerHTML = `<i class="fas fa-info-circle"></i>`;
-  // If the game is just starting, dont' display an icon:
-  // if(gameStart === true) {
-  //   instructions.innerHTML = ``;
-  //   infoMessage(); // Do display info by default
-  // } else {
-    // Otherwise, display the applicable information or gamepad FontAwesome icon:
-    // if(infoContainer.classList.contains('visible')) {
-    //   console.log('The icon is a gamepad.');
-    //   instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
-    // } else {
-    // if(instructions.classList.contains('visible') && canClick) {
-    //   console.log('I am visible.');
-    //
-    //   setTimeout(() => canClick = false, 10 );
-    //   infoContainer.classList.add('visible');
-    //   canClick = true;
-
-      // gameInPlay ? instructions.innerHTML = `<i class="fas fa-info-circle"></i>` :
-      //              instructions.innerHTML = `<i class="fas fa-gamepad"></i>`;
-      // if(!infoContainer.classList.contains('visible')) {
-      //   infoContainer.classList.add('visible');
-      // } else {
-      //   infoContainer.classList.remove('visible');
-      // }
-
-//     } else {
-//       console.log('I am not visible.');
-//     }
-//     // }
-//     infoMessage();
-//   // }
-// }
-
 /*
  * Helper function to get and return the corresponding device image randomly
  * from list of assets
@@ -454,10 +416,3 @@ function cardImageHandler(card) {
     }
   }
 }
-
-//////////////////////////
-
-// Click handler for information button:
-// instructions.addEventListener('click', () => {
-//   handleClassicFAIcon();
-// });
