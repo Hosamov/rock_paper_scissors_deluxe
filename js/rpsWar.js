@@ -4,7 +4,6 @@ import devices from './cardData.js';
 
 // Target global DOM Elements:
 const playArea = document.getElementById('play-area');
-// const instructions = document.getElementById('instructions');
 const playerTie = document.getElementById('player-tie');
 const aiTie = document.getElementById('ai-tie');
 const tiePot = document.getElementById('tie-pot');
@@ -42,8 +41,9 @@ export function createWarDeck(num, gameReset) {
     tieArr = [];
     currentCard = 0;
     tiePot.classList.remove('active');
-
   }
+
+  playArea.classList.add('war'); // Add war class to play area for styling
 
   const splitNum = (num / 3);
   const classes = ['Rock', 'Paper', 'Scissors'];

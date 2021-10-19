@@ -12,6 +12,9 @@ const aiHand = document.querySelector('.ai-hand');
 const playArea = document.getElementById('play-area');
 const ui = document.querySelectorAll('.ui');
 
+
+// TODO: Correct styling - Ensure War cards stay in center of play area.
+
 /*
 * Main function to display the main game menu/information div
 */

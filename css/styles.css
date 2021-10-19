@@ -183,6 +183,15 @@ button {
   align-items: center;
 }
 
+.player-score{
+  z-index: -100;
+}
+
+.play-area.war {
+  top: 25%;
+  bottom: 35%;
+}
+
 .instructions {
   display: fixed;
   position: absolute;
@@ -217,12 +226,12 @@ button {
   margin: 5px;
   cursor: pointer;
   position: relative;
+  z-index: 100;
 }
 
 .player-hand img {
   width: 150px;
   height: 225px;
-  /* opacity: 1; */
 }
 
 .player-hand-rock.active:hover {

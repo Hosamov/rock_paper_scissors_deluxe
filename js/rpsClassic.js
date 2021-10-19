@@ -51,6 +51,9 @@ export function createClassicDeck(num, gameReset) {
     tiePot.classList.remove('active');
   }
 
+  // Reset styling for play area:
+  if(playArea.classList.contains('war')) playArea.classList.remove('war');
+
   const splitNum = (num / 3);
   const classes = ['Rock', 'Paper', 'Scissors'];
   for (let i = 0; i < splitNum; i++) {
