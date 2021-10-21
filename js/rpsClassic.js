@@ -17,24 +17,22 @@ const aiHand = document.querySelector('.ai-hand');
 //Declare global variables needed:
 let gameStart = false;
 let gameInPlay = true;
-let deckSize = 18; // initial value (18, 36, 54)
-let newDeck = []; //init newDeck to hold all card values before dealing
+let canClick = true; // Set ability of user to select a card
+let deckSize = 18; // Initial value (18, 36, 54)
+let currentCard = 0; // Index of current card in player's deck
+let newDeck = []; // Initialize newDeck to hold all card values before dealing
 let playerDecks = [ [],[] ];
 let [p1, p2] = playerDecks; // p1 = human player, p2 = ai player
 let tieArr = []; // Array to keep track of tied cards
-let currentCard = 0; // index of current card in player's deck
-let playerCardRock = [];
-let playerCardPaper, playerCardScissors;
-let chosenCard;
-let canClick = true; // Set ability of user to select a card
+let playerCardRock, playerCardPaper, playerCardScissors, chosenCard;
 
-/*
-* Function to display the main game menu/information div
-*/
-function infoMessage() {
-  console.log('Toggling infoContainer visibility from rpsClassic.js');
-  infoContainer.classList.remove('visible');
-}
+// /*
+// * Function to display the main game menu/information div
+// * Called by script.js
+// */
+// function infoMessage() {
+//   infoContainer.classList.remove('visible');
+// }
 
 /*
 * Function to create a new deck with 18, 36, or 54 cards
@@ -47,7 +45,7 @@ export function createClassicDeck(num, gameReset) {
     playerDecks = [[],[]];
     [p1, p2] = playerDecks;
     tieArr = [];
-    currentCard = 0;
+    currentCard = 0; // For when switching from other game mode; otherwise always 0.
     tiePot.classList.remove('active');
   }
 
@@ -156,7 +154,7 @@ function displayHands() {
         }
       });
     } else {
-      console.log(`card is inactive. You can't click it...`);
+      console.log(`A card is inactive. You can't click it...`);
     }
   });
 
@@ -293,9 +291,6 @@ function runGameInstance(p1Card, p2Card) {
       }
     }
   });
-
-  console.log('AI plays ' + p2Card);
-  console.log(p1, p2);
 }
 
 /*
@@ -341,7 +336,6 @@ function endGame() {
 function gameUpdateHandler(winArr, loseArr, card, losingCard) {
   // Push card to win arr, splice card from lose arr
   let cardIndex = loseArr.indexOf(card);
-  console.log(card, cardIndex); // Log out what card won and what index it's in
 
   // If argument 4 isn't called:
   return (!losingCard) ? (
@@ -350,7 +344,6 @@ function gameUpdateHandler(winArr, loseArr, card, losingCard) {
   ) : ( // Otherwise, push losingCard into P1's array
     winArr.push(losingCard),
     loseArr.shift()
-    // loseArr.splice(cardIndex, 1)
   );
 }
 
