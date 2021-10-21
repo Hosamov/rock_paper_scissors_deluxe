@@ -101,7 +101,6 @@ function displayHands() {
   playerCardRock = p1.filter(playerCard => playerCard === 'Rock');
   playerCardPaper = p1.filter(playerCard => playerCard === 'Paper');
   playerCardScissors = p1.filter(playerCard => playerCard === 'Scissors');
-  // console.log(playerCardRock, playerCardPaper, playerCardScissors);
 
   aiHand.innerHTML = ``; // Clear ai-hand div
   hand.innerHTML = ``;   // Clear hand div
@@ -172,14 +171,10 @@ function displayHands() {
 * @param {String} card  Selected card (Rock, Paper, Scissors)
 */
 function chosenCardHandler(card) {
-    canClick = false; // Toggle canClick so player can't select a new card yet...
-    chosenCard = p1.indexOf(card); // Update global variable
+  canClick = false; // Toggle canClick so player can't select a new card yet...
+  chosenCard = p1.indexOf(card); // Update global variable
 
-    if(currentCard >= (p2.length)) {
-      currentCard = 0;
-    }
-    runGameInstance(p1[chosenCard], p2[currentCard]);
-    currentCard++; // Increment AI's current card
+  runGameInstance(p1[chosenCard], p2[currentCard]);
 }
 
 /*
@@ -188,7 +183,6 @@ function chosenCardHandler(card) {
 * @param {String} p2ImageFront  Card image for P2
 */
 function addUpdateCard(p1ImageFront, p2ImageFront) { //classes: ai-card, player-card
-  // const cardImageBack = './images/card_back.png';
   playArea.innerHTML = ''; //Clear the play area of existing cards
 
   // Display back of card until cardFlipped:
@@ -272,10 +266,10 @@ function runGameInstance(p1Card, p2Card) {
   // Loop through devices array to check cards against each other:
   devices.forEach(device => {
     if (p1Card === device.device) {
-      if (p2Card === device.win) {
+      if (p2Card === device.win) { // Note: device.win is what device.device wins against
         deviceUpdateHandler(true, 'win', 'lose', p1);
         gameUpdateHandler(p1, p2, device.device, device.win);
-      } else if (p2Card === device.lose) {
+      } else if (p2Card === device.lose) { // Note: device.lose is what device.device loses against
         deviceUpdateHandler(false, 'lose', 'win', p2);
         gameUpdateHandler(p2, p1, device.device); // Note: P2 takes only 3 args (as opposed to 4 for P1)
       } else { // Tie round: Begin War...
@@ -299,6 +293,9 @@ function runGameInstance(p1Card, p2Card) {
       }
     }
   });
+
+  console.log('AI plays ' + p2Card);
+  console.log(p1, p2);
 }
 
 /*
@@ -336,18 +333,24 @@ function endGame() {
 /*
 * Helper function that takes two player arrays and two card values, then
 * adds/removes to/from correct hand:
+* @param  {array} winArr  Main array to push a card to
+* @param  {array} loseArr  Array to splice/remove losing card from
+* @param  {String} card   The winning card
+* @param  {String} losingCard
 */
-function gameUpdateHandler(arr1, arr2, card, losingCard) {
+function gameUpdateHandler(winArr, loseArr, card, losingCard) {
   // Push card to win arr, splice card from lose arr
-  let cardIndex = arr2.indexOf(card);
+  let cardIndex = loseArr.indexOf(card);
   console.log(card, cardIndex); // Log out what card won and what index it's in
 
+  // If argument 4 isn't called:
   return (!losingCard) ? (
-    arr1.push(card),
-    arr2.splice(cardIndex, 1) // Replace one index at index of cardIndex
-  ) : (
-    arr1.push(losingCard),
-    arr2.splice(cardIndex, 1)
+    winArr.push(card),
+    loseArr.splice(cardIndex, 1) // Replace one index at index of cardIndex
+  ) : ( // Otherwise, push losingCard into P1's array
+    winArr.push(losingCard),
+    loseArr.shift()
+    // loseArr.splice(cardIndex, 1)
   );
 }
 
