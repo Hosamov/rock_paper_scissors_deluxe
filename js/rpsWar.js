@@ -20,12 +20,12 @@ let tieArr = []; // Array to keep track of tied cards
 let cardFlipped = false; // Globally track whether card is flipped
 let currentCard = 0; // index of current card in player's deck
 
-/*
-* Function to display the main game menu/information div
-*/
-function infoMessage() {
-  infoContainer.classList.toggle('visible');
-}
+// /*
+// * Function to display the main game menu/information div
+// */
+// function infoMessage() {
+//   infoContainer.classList.toggle('visible');
+// }
 
 /*
 * Function to create a new deck with 18, 36, or 54 cards

@@ -25,14 +25,6 @@ let [p1, p2] = playerDecks; // p1 = human player, p2 = ai player
 let tieArr = []; // Array to keep track of tied cards
 let playerCardRock, playerCardPaper, playerCardScissors, chosenCard;
 
-// /*
-// * Function to display the main game menu/information div
-// * Called by script.js
-// */
-// function infoMessage() {
-//   infoContainer.classList.remove('visible');
-// }
-
 /*
 * Function to create a new deck with 18, 36, or 54 cards
 * @param  {Number} num  Iterator value (9, 12, 18)

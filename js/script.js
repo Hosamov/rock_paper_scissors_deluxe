@@ -1,6 +1,6 @@
 import {createClassicDeck} from './rpsClassic.js';
 import {createWarDeck} from './rpsWar.js';
-// import {createMemoryDeck, handleMemoryFAIcon} from './rpsMemory.js';
+import {createMemoryDeck} from './rpsMemory.js';
 
 import instructions from './gameInstructions.js';
 
@@ -81,10 +81,12 @@ function infoMessage() {
         break;
       case 'war':
         createWarDeck(deckSize, true);
-        gameModeHandler(1)
+        gameModeHandler(1);
         break;
       case 'memory':
         console.log('You chose "Memory"');
+        createMemoryDeck(9, true);
+        gameModeHandler(2);
         break;
     }
   });
