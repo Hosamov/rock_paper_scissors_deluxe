@@ -22,6 +22,8 @@ function infoMessage() {
   const btnShuffleDeck = document.querySelector('.btn-shuffle-deck');
   let gameMode = 'classic';
   let deckSize = 18;
+  let classicDeckSizes = [18, 36, 54]; // Deck sizes for Classic & War modes
+  let memoryDeckSizes = [9, 12, 15]; // Deck sizes for Memory mode
 
   //Display Classic instructions by default:
   gameInstructions.innerHTML = instructions[0].instruction;
@@ -34,6 +36,18 @@ function infoMessage() {
       for(let i = 0; i < btnDeck.length; i++) btnGameMode[i].classList.remove('active');
 
       gameMode = e.target.value;
+
+      // Display proper deck sizes depending on mode chosen by player:
+      for(let i = 0; i < btnDeck.length; i++) {
+        if(gameMode === 'memory') {
+          btnDeck[i].innerText = memoryDeckSizes[i];
+          btnDeck[i].value = memoryDeckSizes[i];
+        } else {
+          btnDeck[i].innerText = classicDeckSizes[i];
+          btnDeck[i].value = classicDeckSizes[i];
+        }
+      }
+
       // Change game instructions based on game mode/type:
       instructions.forEach(inst => {
         if (inst.mode === gameMode) {

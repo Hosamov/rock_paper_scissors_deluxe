@@ -16,7 +16,6 @@ const aiHand = document.querySelector('.ai-hand');
 
 //Declare global variables needed:
 let gameStart = false;
-let gameInPlay = true;
 let canClick = true; // Set ability of user to select a card
 let deckSize = 18; // Initial value (18, 36, 54)
 let currentCard = 0; // Index of current card in player's deck
